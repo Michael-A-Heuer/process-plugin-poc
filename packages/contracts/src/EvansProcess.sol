@@ -67,5 +67,3 @@ contract EvansProcess is Process {
         );
     }
 }
-
-//contract PolygonsDreamProcess is Process {}
