@@ -35,13 +35,14 @@ abstract contract Process is PluginUUPSUpgradeable, IProcess, ProposalUpgradeabl
         uint256 allowFailureMap;
     }
 
+    error BodyLengthZero();
     error InvalidCaller(address caller);
     error ApprovedAlready(address caller);
     error ApprovalThresholdNotMet(uint256 limit, uint256 actual);
 
     uint256 internal approvalThreshold;
     EnumerableSetUpgradeable.AddressSet internal bodies;
-    mapping(uint256 proposalId => Proposal data) internal proposals;
+    mapping(uint256 proposalId => Proposal proposal) internal proposals;
 
     /// @notice Initializes the plugin when build 1 is installed.
     function initialize(
@@ -49,6 +50,10 @@ abstract contract Process is PluginUUPSUpgradeable, IProcess, ProposalUpgradeabl
         uint256 _approvalThreshold,
         address[] memory _bodies
     ) external initializer {
+        if (_bodies.length == 0) {
+            revert BodyLengthZero();
+        }
+
         __PluginUUPSUpgradeable_init(_dao);
 
         approvalThreshold = _approvalThreshold;

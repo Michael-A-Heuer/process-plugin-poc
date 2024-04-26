@@ -170,6 +170,7 @@ const config: HardhatUserConfig = {
   solidity: {
     version: '0.8.21',
     settings: {
+      viaIR: true,
       metadata: {
         // Not including the metadata hash
         // https://github.com/paulrberg/hardhat-template/issues/31
