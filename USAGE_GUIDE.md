@@ -28,12 +28,12 @@ For detailed instructions, refer to the [README](README.md).
 
 ## Adapt template contracts
 
-This template contains the boilerplate and it uses `MyPlugin` as the contracts names, in order to adapt them according to your needs follow the following steps:
+This template contains the boilerplate and it uses `Process` as the contracts names, in order to adapt them according to your needs follow the following steps:
 
 1. Go to the `packages/contracts/src` folder and
 
-   - adapt and rename the `MyPlugin.sol` plugin implementation contract (see [our docs](https://devs.aragon.org/docs/osx/how-to-guides/plugin-development/upgradeable-plugin/implementation)).
-   - adapt and rename the `MyPluginSetup.sol` plugin setup contract (see [our docs](https://devs.aragon.org/docs/osx/how-to-guides/plugin-development/upgradeable-plugin/setup)).
+   - adapt and rename the `Process.sol` plugin implementation contract (see [our docs](https://devs.aragon.org/docs/osx/how-to-guides/plugin-development/upgradeable-plugin/implementation)).
+   - adapt and rename the `ProcessSetup.sol` plugin setup contract (see [our docs](https://devs.aragon.org/docs/osx/how-to-guides/plugin-development/upgradeable-plugin/setup)).
 
 2. adapt the release and build metadata for the plugin:
 
@@ -45,8 +45,8 @@ This template contains the boilerplate and it uses `MyPlugin` as the contracts n
 3. Finally, write the file names into the `packages/contracts/plugin-settings.ts` file and pick an ENS subdomain name according to the rules described in [our docs on ENS subdomain names](https://devs.aragon.org/docs/osx/how-it-works/framework/ens-names).
 
    ```ts
-   export const PLUGIN_CONTRACT_NAME = 'MyPlugin'; // Replace this with plugin contract name you chose
-   export const PLUGIN_SETUP_CONTRACT_NAME = 'MyPluginSetup'; // Replace this with the plugin setup contract name you chose.
+   export const PLUGIN_CONTRACT_NAME = 'Process'; // Replace this with plugin contract name you chose
+   export const PLUGIN_SETUP_CONTRACT_NAME = 'ProcessSetup'; // Replace this with the plugin setup contract name you chose.
    export const PLUGIN_REPO_ENS_NAME = 'my'; // Pick an ENS subdomain name under that will live under `plugin.dao.eth` domain (e.g., 'my' will result in 'my.plugin.dao.eth') for the plugin repository that will be created during deployment. Make sure that the subdomain is not already taken on the chain(s) you are planning to deploy to.
    ```
 
@@ -185,7 +185,7 @@ The `src` folder contains a `plugin` and `osx` subfolder.
 In `plugin.ts` inside the `plugin` folder, you can add plugin-related event handlers.
 In `pluginSetupProcessor.ts` inside the `osx` folder, you can add plugin-setup-processor-related event handlers that your plugin might require.
 
-For the `MyPlugin` example, two handlers are already provided:
+For the `Process` example, two handlers are already provided:
 
 - `handleInstallationPrepared`: Handles the `InstallationPrepared` event. This event is emitted when the installation is prepared. This event contains the `installationId` and the handler will create a new `PluginEntity` entity with the `installationId` as the id.
 - `handleNumberStored`: Handles the `NumberStored` event. And stores the number in the `pluginEntity` entity in the `number` property.

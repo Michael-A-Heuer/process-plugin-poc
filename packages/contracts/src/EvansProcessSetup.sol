@@ -8,30 +8,29 @@ import {PluginUpgradeableSetup} from "@aragon/osx-commons-contracts/src/plugin/s
 import {IPluginSetup} from "@aragon/osx-commons-contracts/src/plugin/setup/IPluginSetup.sol";
 import {IDAO} from "@aragon/osx-commons-contracts/src/dao/IDAO.sol";
 
-import {MyPlugin} from "./MyPlugin.sol";
+import {ProcessPermissionLib} from "./ProcessPermissionLib.sol";
+import {EvansProcess} from "./EvansProcess.sol";
+import {Process} from "./EvansProcess.sol";
 
-/// @title MyPluginSetup
+/// @title ProcessSetup
 /// @dev Release 1, Build 1
-contract MyPluginSetup is PluginUpgradeableSetup {
+contract ProcessSetup is PluginUpgradeableSetup {
     using ProxyLib for address;
 
-    /// @notice Constructs the `PluginUpgradeableSetup` by storing the `MyPlugin` implementation address.
+    /// @notice Constructs the `PluginUpgradeableSetup` by storing the `Process` implementation address.
     /// @dev The implementation address is used to deploy UUPS proxies referencing it and
     /// to verify the plugin on the respective block explorers.
-    constructor() PluginUpgradeableSetup(address(new MyPlugin())) {}
-
-    /// @notice The ID of the permission required to call the `storeNumber` function.
-    bytes32 internal constant STORE_PERMISSION_ID = keccak256("STORE_PERMISSION");
+    constructor() PluginUpgradeableSetup(address(new EvansProcess())) {}
 
     /// @inheritdoc IPluginSetup
     function prepareInstallation(
         address _dao,
         bytes memory _data
     ) external returns (address plugin, PreparedSetupData memory preparedSetupData) {
-        uint256 number = abi.decode(_data, (uint256));
+        (uint256 threshold, address[] memory bodies) = abi.decode(_data, (uint256, address[]));
 
         plugin = IMPLEMENTATION.deployUUPSProxy(
-            abi.encodeCall(MyPlugin.initialize, (IDAO(_dao), number))
+            abi.encodeCall(Process.initialize, (IDAO(_dao), threshold, bodies))
         );
 
         PermissionLib.MultiTargetPermission[]
@@ -39,10 +38,10 @@ contract MyPluginSetup is PluginUpgradeableSetup {
 
         permissions[0] = PermissionLib.MultiTargetPermission({
             operation: PermissionLib.Operation.Grant,
-            where: plugin,
-            who: _dao,
+            where: _dao,
+            who: plugin,
             condition: PermissionLib.NO_CONDITION,
-            permissionId: STORE_PERMISSION_ID
+            permissionId: ProcessPermissionLib.EXECUTE_PERMISSION_ID
         });
 
         preparedSetupData.permissions = permissions;
@@ -71,7 +70,7 @@ contract MyPluginSetup is PluginUpgradeableSetup {
             where: _payload.plugin,
             who: _dao,
             condition: PermissionLib.NO_CONDITION,
-            permissionId: STORE_PERMISSION_ID
+            permissionId: ProcessPermissionLib.EXECUTE_PERMISSION_ID
         });
     }
 }

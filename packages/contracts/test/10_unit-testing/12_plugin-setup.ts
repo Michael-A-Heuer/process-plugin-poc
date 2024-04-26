@@ -3,9 +3,9 @@ import buildMetadata from '../../src/build-metadata.json';
 import {
   DAOMock,
   DAOMock__factory,
-  MyPluginSetup,
-  MyPluginSetup__factory,
-  MyPlugin__factory,
+  ProcessSetup,
+  ProcessSetup__factory,
+  Process__factory,
 } from '../../typechain';
 import {STORE_PERMISSION_ID, defaultInitData} from './11_plugin';
 import {
@@ -22,7 +22,7 @@ type FixtureResult = {
   deployer: SignerWithAddress;
   alice: SignerWithAddress;
   bob: SignerWithAddress;
-  pluginSetup: MyPluginSetup;
+  pluginSetup: ProcessSetup;
   prepareInstallationInputs: string;
   prepareUninstallationInputs: string;
   daoMock: DAOMock;
@@ -31,7 +31,7 @@ type FixtureResult = {
 async function fixture(): Promise<FixtureResult> {
   const [deployer, alice, bob] = await ethers.getSigners();
   const daoMock = await new DAOMock__factory(deployer).deploy();
-  const pluginSetup = await new MyPluginSetup__factory(deployer).deploy();
+  const pluginSetup = await new ProcessSetup__factory(deployer).deploy();
 
   const prepareInstallationInputs = ethers.utils.defaultAbiCoder.encode(
     getNamedTypesFromMetadata(
@@ -97,11 +97,11 @@ describe(PLUGIN_SETUP_CONTRACT_NAME, function () {
         daoMock.address,
         prepareInstallationInputs
       );
-      const myPlugin = new MyPlugin__factory(deployer).attach(plugin);
+      const Process = new Process__factory(deployer).attach(plugin);
 
       // initialization is correct
-      expect(await myPlugin.dao()).to.eq(daoMock.address);
-      expect(await myPlugin.number()).to.be.eq(defaultInitData.number);
+      expect(await Process.dao()).to.eq(daoMock.address);
+      expect(await Process.number()).to.be.eq(defaultInitData.number);
     });
   });
 

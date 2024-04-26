@@ -2,10 +2,10 @@ import {PLUGIN_CONTRACT_NAME} from '../../plugin-settings';
 import {
   DAOMock,
   DAOMock__factory,
-  MyPlugin,
-  MyPlugin__factory,
+  Process,
+  Process__factory,
 } from '../../typechain';
-import '../../typechain/src/MyPlugin';
+import '../../typechain/src/Process';
 import {loadFixture} from '@nomicfoundation/hardhat-network-helpers';
 import {SignerWithAddress} from '@nomiclabs/hardhat-ethers/signers';
 import {expect} from 'chai';
@@ -23,7 +23,7 @@ type FixtureResult = {
   deployer: SignerWithAddress;
   alice: SignerWithAddress;
   bob: SignerWithAddress;
-  plugin: MyPlugin;
+  plugin: Process;
   daoMock: DAOMock;
 };
 
@@ -31,7 +31,7 @@ async function fixture(): Promise<FixtureResult> {
   const [deployer, alice, bob] = await ethers.getSigners();
   const daoMock = await new DAOMock__factory(deployer).deploy();
   const plugin = (await upgrades.deployProxy(
-    new MyPlugin__factory(deployer),
+    new Process__factory(deployer),
     [daoMock.address, defaultInitData.number],
     {
       kind: 'uups',
@@ -39,7 +39,7 @@ async function fixture(): Promise<FixtureResult> {
       unsafeAllow: ['constructor'],
       constructorArgs: [],
     }
-  )) as unknown as MyPlugin;
+  )) as unknown as Process;
 
   return {deployer, alice, bob, plugin, daoMock};
 }

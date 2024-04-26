@@ -46,7 +46,7 @@ templates:
         - Dao
       abis:
         - name: Plugin
-          file: $PLUGIN_MODULE/contracts/artifacts/src/MyPlugin.sol/MyPlugin.json
+          file: $PLUGIN_MODULE/contracts/artifacts/src/Process.sol/Process.json
       eventHandlers:
         - event: NumberStored(uint256)
           handler: handleNumberStored

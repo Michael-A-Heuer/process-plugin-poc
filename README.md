@@ -13,7 +13,7 @@ After [creating a new repository from this template](https://github.com/new?temp
 yarn install && cd packages/contracts && yarn install && yarn build && yarn typechain
 ```
 
-You can now develop a plugin by changing the `src/MyPlugin.sol` and `src/MyPluginSetup.sol` files. You can directly import contracts from [Aragon OSx](https://github.com/aragon/osx) as well as OpenZeppelin's [openzeppelin-contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) and [openzeppelin-contracts-upgradeable](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable) that are already set up for you.
+You can now develop a plugin by changing the `src/Process.sol` and `src/ProcessSetup.sol` files. You can directly import contracts from [Aragon OSx](https://github.com/aragon/osx) as well as OpenZeppelin's [openzeppelin-contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) and [openzeppelin-contracts-upgradeable](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable) that are already set up for you.
 
 ```sol
 // SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,12 +22,12 @@ pragma solidity ^0.8.17;
 import {IDAO, PluginUUPSUpgradeable} from "@aragon/osx/core/plugin/PluginUUPSUpgradeable.sol";
 import {SafeCastUpgradeable} from '@openzeppelin/contracts-upgradeable/utils/math/SafeCastUpgradeable.sol';
 
-contract MyPlugin is PluginUUPSUpgradeable {
+contract Process is PluginUUPSUpgradeable {
     //...
 };
 ```
 
-The initial `MyPlugin` and `MyPluginSetup` example comes with unit test, integration test, and test helpers in the `package/contracts/test` folder that you can reuse.
+The initial `Process` and `ProcessSetup` example comes with unit test, integration test, and test helpers in the `package/contracts/test` folder that you can reuse.
 
 To build and test your contracts, run
 

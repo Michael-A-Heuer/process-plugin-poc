@@ -2,9 +2,9 @@ import {METADATA} from '../../plugin-settings';
 import {
   DAOMock,
   DAOMock__factory,
-  MyPluginSetup,
-  MyPluginSetup__factory,
-  MyPlugin__factory,
+  ProcessSetup,
+  ProcessSetup__factory,
+  Process__factory,
 } from '../../typechain';
 import {getProductionNetworkName, findPluginRepo} from '../../utils/helpers';
 import {installPLugin, uninstallPLugin} from './test-helpers';
@@ -52,7 +52,7 @@ describe(`PluginSetup processing on network '${productionNetworkName}'`, functio
       )
     );
 
-    const plugin = MyPlugin__factory.connect(
+    const plugin = Process__factory.connect(
       results.preparedEvent.args.plugin,
       deployer
     );
@@ -90,7 +90,7 @@ type FixtureResult = {
   daoMock: DAOMock;
   psp: PluginSetupProcessor;
   pluginRepo: PluginRepo;
-  pluginSetup: MyPluginSetup;
+  pluginSetup: ProcessSetup;
   pluginSetupRef: PluginSetupProcessorStructs.PluginSetupRefStruct;
 };
 
@@ -124,7 +124,7 @@ async function fixture(): Promise<FixtureResult> {
   }
 
   const release = 1;
-  const pluginSetup = MyPluginSetup__factory.connect(
+  const pluginSetup = ProcessSetup__factory.connect(
     (await pluginRepo['getLatestVersion(uint8)'](release)).pluginSetup,
     deployer
   );

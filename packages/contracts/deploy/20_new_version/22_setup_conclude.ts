@@ -1,5 +1,5 @@
 import {PLUGIN_SETUP_CONTRACT_NAME} from '../../plugin-settings';
-import {MyPluginSetup__factory, MyPlugin__factory} from '../../typechain';
+import {ProcessSetup__factory, Process__factory} from '../../typechain';
 import {DeployFunction} from 'hardhat-deploy/types';
 import {HardhatRuntimeEnvironment} from 'hardhat/types';
 import path from 'path';
@@ -17,12 +17,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   // Get the plugin setup address
   const setupDeployment = await deployments.get(PLUGIN_SETUP_CONTRACT_NAME);
-  const setup = MyPluginSetup__factory.connect(
+  const setup = ProcessSetup__factory.connect(
     setupDeployment.address,
     deployer
   );
   // Get the plugin implementation address
-  const implementation = MyPlugin__factory.connect(
+  const implementation = Process__factory.connect(
     await setup.implementation(),
     deployer
   );
